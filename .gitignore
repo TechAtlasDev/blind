@@ -1,0 +1,35 @@
+# Configuración de entornos virtuales
+venv/
+.env
+*.env
+
+# Archivos de configuración sensible
+config.py
+secret_config.py
+*.env.local
+
+# Archivos de caché y compilación de Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Archivos de logs y depuración
+*.log
+*.debug
+
+# Bases de datos locales
+*.sqlite3
+*.db
+*.sqlite
+
+# Archivos específicos de Pyrogram y Telegram
+session_name.session
+session_name.session-journal
+*.session
+*.session-journal
+
+# Archivos de dependencias y configuración de paquetes
+*.egg-info/
+dist/
+build/
