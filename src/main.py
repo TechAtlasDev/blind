@@ -3,7 +3,7 @@ import os
 from pyrogram import Client
 from src.utils.vars import *
 
-print ("iniciando")
+print ("Sistema iniciando...")
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
 
 bot = Client(

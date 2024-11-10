@@ -1,11 +1,12 @@
-from .serializer import SerializerResponse
-
 from pyrogram import Client
 from pyrogram.types.messages_and_media.message import Message
 from google.generativeai.types.generation_types import GenerateContentResponse
 
+from .objects import CHAT, partFunction
+
 from .path import functions
 from .functions.chat import main
+from src.utils.utilities import printTest
 
 class HandlerResponseJSON:
   def __init__(self, data:GenerateContentResponse, messsage:Message, client:Client):
@@ -17,13 +18,24 @@ class HandlerResponseJSON:
     for part in self.data.parts:
       if part.function_call:
         function_name = part.function_call.name
-        args = part.function_call.args
         if functions.get(function_name, None):
-#          if type(args) == dict:
-#            await self.message.reply(f"Funcion activada por CuVo: {function_name}")
-#          else:
-#            await self.message.reply(f"Funcion activada por CuVo: {function_name}")
+          # Ejecutando la funcion y guardando el resultado
           response = await functions[function_name](**part.function_call.args, message=self.message, client=self.client)
-          return {"name":function_name, "response":response}
-      elif part.text:
-        await main(part.text, message=self.message, client=self.client)
+
+          PARTRESPONSECALL = response["results"] if response.get("results", None) else response
+          partContent = partFunction(name=function_name, response={"results": PARTRESPONSECALL})
+          parts = [partContent]
+
+          PARTSADITIONAL = response["parts"] if response.get("parts", None) else None
+          if PARTSADITIONAL:
+            for part in PARTSADITIONAL:
+              parts.append(part) if part else None
+
+          AICUVO = CHAT(self.message)
+          RESPONSE:GenerateContentResponse = AICUVO.chat.send_message(parts)
+          HANDLER = HandlerResponseJSON(RESPONSE, self.message, self.client)
+          await HANDLER.execute()
+
+      if part.text:
+        AICUVO = CHAT(self.message)
+        await main(f"{part.text}\n\n[❗️] Tokens usados: {AICUVO.count_tokens()}", message=self.message, client=self.client)

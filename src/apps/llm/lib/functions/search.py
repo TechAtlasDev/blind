@@ -39,5 +39,5 @@ async def google_search(search:str, **kwargs):
   for result in responseSearch:
     MESSAGE += f"Título: {result.title}\nDescripccion: {result.description}\nURL: {result.url}\n\n"
   
-  await message.reply(f"[✅] CUVO ESTÁ USANDO EL BUSCADOR DE GOOGLE")
+#  await message.reply(f"[✅] CUVO ESTÁ USANDO EL BUSCADOR DE GOOGLE -> {search}")
   return {"results": MESSAGE}
