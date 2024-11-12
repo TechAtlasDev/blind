@@ -8,7 +8,7 @@ from src.apps.llm.lib.objects import CHAT_USER_ACTIONS
 
 async def main(client:Client, CallbackQuery:CallbackQuery, postdata=0):
   if postdata == "clear":
-    if CallbackQuery.from_user.id == int(ADMIN_ID):
+    if CallbackQuery.from_user.id:
       CHAT_USER_ACTIONS(CallbackQuery.message).deleteChat(CallbackQuery.from_user.id)
 #      AICUVO.chat = AICUVO.model.start_chat(history=[])
       await CallbackQuery.answer("Memoria limpia con exito")

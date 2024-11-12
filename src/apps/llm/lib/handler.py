@@ -16,6 +16,10 @@ class HandlerResponseJSON:
 
   async def execute(self) -> dict:
     for part in self.data.parts:
+      printTest(part) # -- Debug
+      if part.text:
+        AICUVO = CHAT(self.message)
+        await main(f"{part.text}\n\n[❗️] Tokens usados: {AICUVO.count_tokens()}", message=self.message, client=self.client)
       if part.function_call:
         function_name = part.function_call.name
         if functions.get(function_name, None):
@@ -36,6 +40,3 @@ class HandlerResponseJSON:
           HANDLER = HandlerResponseJSON(RESPONSE, self.message, self.client)
           await HANDLER.execute()
 
-      if part.text:
-        AICUVO = CHAT(self.message)
-        await main(f"{part.text}\n\n[❗️] Tokens usados: {AICUVO.count_tokens()}", message=self.message, client=self.client)

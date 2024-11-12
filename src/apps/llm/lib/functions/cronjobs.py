@@ -59,8 +59,11 @@ async def alarma(time_value: float, postdata: str, time_unit: str = "hours", **k
 
 
 async def enviar_mensaje_despues(client: Client, chat_id: int, postdata: str, delay: float, message):
-    from src.apps.llm.lib.objects import AICUVO
+    from src.apps.llm.lib.objects import CHAT
     from src.apps.llm.lib.handler import HandlerResponseJSON
+
+    AICUVO = CHAT(message)
+
 
     """
     Función auxiliar que espera el tiempo especificado y luego envía el mensaje al chat.
@@ -83,7 +86,7 @@ async def enviar_mensaje_despues(client: Client, chat_id: int, postdata: str, de
     await client.send_message(chat_id=chat_id, text=f"[ ⏰ ] LA ALARMA DE {delay} TERMINÓ -> <i>{postdata}</i>")
     
     # Enviado el mensaje a la IA
-    RESPONSE = AICUVO.talk(f"[SYSTEM] Se terminó la alarma, su postdata era: {postdata}", message)
+    RESPONSE = AICUVO.chat.send_message(f"[SYSTEM] Se terminó la alarma, su postdata era: {postdata}")
 
     # Procesando la respuesta
     HANDLER = HandlerResponseJSON(RESPONSE, message, client)

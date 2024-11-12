@@ -16,7 +16,7 @@ functions = {
   "alarma": cronjobs.alarma,
   "visitarURL": web.visitarURL,
   "youtube_obtener_video_transcripcion": youtube.youtube_obtener_video_transcripcion,
-  "crear_pdf_markdown": pdf.crear_pdf_markdown
+  "crear_pdf_html": pdf.crear_pdf_html
   
 #  "generar_audio": audio.generar_audio
 }

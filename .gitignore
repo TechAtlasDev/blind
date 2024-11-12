@@ -1,3 +1,7 @@
+downloads/
+
+*.pkl
+
 # Configuración de entornos virtuales
 venv/
 .env
