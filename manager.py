@@ -27,12 +27,12 @@ class ReloadBotHandler(FileSystemEventHandler):
         if self.process:
             self.process.kill()
 
-def check_repo_updates(interval=300):
+def check_repo_updates(interval=30):
     """Verifica periódicamente si el repositorio está actualizado cada cierto intervalo."""
     from src.utils.repo import is_updated
     while True:
         repo_status = is_updated()
-        if not True:
+        if not repo_status:
             print("El repositorio no está actualizado. Actualizando...")
             subprocess.run(["git", "pull"])
             print("Repositorio actualizado. Reiniciando bot...")
@@ -58,7 +58,7 @@ if __name__ == "__main__":
             printTest(repo_status)
 
             # Sistema actualizado
-            if True:
+            if repo_status:
                 print("El repositorio está actualizado. Ejecutando bot en modo producción...")
                 reload_handler = ReloadBotHandler("src.main")
                 
