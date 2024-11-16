@@ -6,7 +6,7 @@ from pyrogram import Client
 from pyrogram.types.messages_and_media.message import Message
 from src.utils.utilities import upload_to_gemini
 
-async def graficar(function: str, **kwargs):
+async def def_funcion_graficar(function: str, **kwargs):
     """
     Una función que sirve para graficar funciones basadas en una entrada de función.
 
