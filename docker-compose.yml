@@ -1,0 +1,16 @@
+version: '3.12.3'
+services:
+  bot:
+    build: .
+    env_file:
+      - .env.bot
+      - .env.docker
+    volumes:
+      - .:/app
+    restart: always
+    entrypoint: >
+      /bin/sh -c "
+      git config --global credential.helper 'cache --timeout=3600' &&
+      git pull https://$GITHUB_PAT@github.com/techatlasdev/blind.git main &&
+      python3 manager.py
+      "
