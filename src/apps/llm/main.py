@@ -18,9 +18,7 @@ async def CUVO(client: Client, message: Message):
         botones = keymakers(["🧹 Limpiar memoria"], ["cuvoAction-clear"])
         return await message.reply("CuVo es un asistente experimental diseñado para ayudarte a hacer cosas muy interesantes con el poder de la IA!.\n\n**[⛏️] Sus herramientas son:**\n\n1. Calculadora de sumas\n2. Buscador de direcciones IP\n3. Gráfica de funciones\n4. Enviador de mensajes por privado\n5. Buscador de datos de un usuario en específico\n6. Buscador de Google\n7. Buscador de bins [Aún por terminar]\n8. Creador de alarmas\n9. Visitador de webs\n\nEspero que te guste!", reply_markup=botones)
 
-    mensaje_respuesta = "Generando respuesta..."
-
-    sent_message = await message.reply(mensaje_respuesta)
+    await client.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
 
     # Enviado el mensaje a la IA
     AICUVO = CHAT(message)
@@ -31,9 +29,9 @@ async def CUVO(client: Client, message: Message):
     await HANDLER.execute()
 
     client.set_parse_mode(enums.ParseMode.MARKDOWN)
-    await sent_message.delete()
+    await client.send_chat_action(message.chat.id, enums.ChatAction.CANCEL)
 
-@Client.on_message((filters.photo | filters.media_group & filters.private) | (filters.photo & filters.command("cuvo")))
+#@Client.on_message((filters.photo | filters.media_group & filters.private) | (filters.photo & filters.command("cuvo")))
 async def CUVO_CAPTION(client: Client, message: Message):
     DESCRIPCION = clearComand(message.caption) if message.caption else ""
     PATHFILES = []
