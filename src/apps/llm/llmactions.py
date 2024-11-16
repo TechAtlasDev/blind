@@ -26,8 +26,8 @@ async def clear(client:Client, message:Message):
   if message.from_user.id:
     sticker_loading = await client.send_sticker(message.chat.id, "CAACAgIAAxkBAAENIfZnOBR8ghBQF2ksQk-vFX3XVXeDMwACSQIAAladvQoqlwydCFMhDjYE")
     CHAT_USER_ACTIONS(message).deleteChat(message.from_user.id)
-    await sticker_loading.delete()
     await sleep(3)
+    await sticker_loading.delete()
     await message.reply_text("[✅] LA MEMORIA DE CUVO ESTÁ LIMPIA.")
   else:
     await message.reply_text(f"Oye 😡 no permitiré que me borres la memoria, me lo ordenó mi creador.")
