@@ -22,6 +22,8 @@ async def graficar(function: str, **kwargs):
     message: Message = kwargs.get("message", None)
     client: Client = kwargs.get("client", None)
 
+    message.reply_text(f"[📊] <b>CuVo</b> está graficando la función <code>{function}</code>.")
+
     # Generando los valores x y calculando y
     x = np.linspace(-10, 10, 100)
     y = eval(function)

@@ -20,7 +20,7 @@ class HandlerResponseJSON:
       printTest(part) # -- Debug
       if part.text:
         AICUVO = CHAT(self.message)
-        await main(f"{part.text}\n\n[❗️] Tokens usados: {AICUVO.count_tokens()}", message=self.message, client=self.client)
+        await main(f"{part.text}", message=self.message, client=self.client)
       if part.function_call:
         function_name = part.function_call.name
         if functions.get(function_name, None):

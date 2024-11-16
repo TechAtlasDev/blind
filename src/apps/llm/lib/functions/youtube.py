@@ -14,6 +14,8 @@ async def youtube_obtener_video_transcripcion(url:str, **kwargs):
     message:Message = kwargs.get("message", None)
     client:Client = kwargs.get("client", None)
 
+    message.reply_text(f"[🧾] <b>CuVo</b> está obteniendo los subtítulos de tu video.")
+
     # Analiza la URL
     query = urlparse(url)
     

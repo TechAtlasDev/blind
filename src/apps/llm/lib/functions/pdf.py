@@ -4,7 +4,7 @@ import random
 from pyrogram import Client
 from pyrogram.types.messages_and_media.message import Message
 
-async def crear_pdf_html(html_str:str, **kwargs):
+async def crear_pdf_html(html_str:str, titulo_pdf:str, **kwargs):
     """
     Convierte un string HTML a un archivo PDF.
     
@@ -16,8 +16,10 @@ async def crear_pdf_html(html_str:str, **kwargs):
     message: Message = kwargs.get("message", None)
     client: Client = kwargs.get("client", None)
 
+    message.reply_text(f"[📝] <b>CuVo</b> está creando un PDF.")
+
     # Generar el nombre de archivo único
-    filename = f"{message.from_user.id}_{random.randint(0, 100)}.pdf"
+    filename = f"{titulo_pdf}_{random.randint(0, 100)}.pdf"
 
     html_str = html_str.replace('\n', '')
     html_str = html_str.replace('\\n', '')

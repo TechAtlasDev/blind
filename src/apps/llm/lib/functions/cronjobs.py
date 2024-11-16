@@ -36,6 +36,9 @@ async def alarma(time_value: float, postdata: str, time_unit: str = "hours", **k
     message: Message = kwargs.get("message", None)
     client: Client = kwargs.get("client", None)
 
+    message.reply_text(f"[⏰] <b>CuVo</b> está creando una alarma que sonará en <i>{time_value} {time_unit}</i>.")
+
+
     if not message or not client:
         return {"error": "Debe proporcionar el mensaje y el cliente."}
 
