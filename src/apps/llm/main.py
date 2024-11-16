@@ -8,8 +8,6 @@ from pyrogram import enums
 from src.utils.utilities import upload_to_gemini, clearComand, downloadMedia, printTest
 from src.utils.buttons import keymakers
 
-print ("Alerta de prueba 2")
-
 @Client.on_message((filters.command("cuvo") & filters.text) | (filters.private & filters.text))
 async def CUVO(client: Client, message: Message):
         
