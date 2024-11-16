@@ -1,5 +1,5 @@
 # Funcion que sirve para controlar acciones que se reciban
-from pyrogram import Client
+from pyrogram import Client, filters
 from pyrogram.types.bots_and_keyboards.callback_query import CallbackQuery
 #from src.apps.llm.lib.objects import AICUVO
 
@@ -18,3 +18,11 @@ async def main(client:Client, CallbackQuery:CallbackQuery, postdata=0):
 
   else:
     await CallbackQuery.answer(f"No se encontró un comando cuyo nombre sea: {postdata}")
+
+@Client.on_message(filters.command("clear"))
+async def clear(client:Client, message):
+  if message.from_user.id == ADMIN_ID:
+    CHAT_USER_ACTIONS(message).deleteChat(message.from_user.id)
+    await message.reply_text("[⚠️] LA MEMORIA DE CUVO ESTÁ LIMPIA.")
+  else:
+    await message.reply_text(f"Oye 😡 no permitiré que me borres la memoria, me lo ordenó mi creador.")
