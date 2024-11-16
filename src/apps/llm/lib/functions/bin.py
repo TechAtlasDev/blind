@@ -26,7 +26,7 @@ async def getBin(bin:str, **kwargs):
     message:Message = kwargs.get("message", None)
     client:Client = kwargs.get("client", None)
 
-    message.reply_text(f"[🧬] <b>CuVo</b> está buscando el bin {bin}.")
+    await message.reply_text(f"[🧬] <b>CuVo</b> está buscando el bin {bin}.")
 
     results = findBin(bin)
 

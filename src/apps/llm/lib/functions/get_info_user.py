@@ -6,7 +6,7 @@ async def fetchDataUser(id:int, **kwargs):
   message:Message = kwargs.get("message", None)
   client:Client = kwargs.get("client", None)
 
-  message.reply_text(f"[👥] <b>CuVo</b> está buscando la información con el ID {id}.")
+  await message.reply_text(f"[👥] <b>CuVo</b> está buscando la información con el ID {id}.")
 
   user:User = await client.get_users(user_ids=int(id))
   response = f"ID: {user.id}\nNombre: {user.first_name}\nApellido: {user.last_name}\nUsername: {user.username}"

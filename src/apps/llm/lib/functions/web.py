@@ -13,10 +13,10 @@ async def visitarURL(url:str, **kwargs):
     Retorna: El texto que se encuentra dentro de la web visitada.
     """
 
-    message.reply_text(f"[👀] <b>CuVo</b> buscando visitando la URL {url}.")
-
     message:Message = kwargs.get("message", None)
     client:Client = kwargs.get("client", None)
+
+    await message.reply_text(f"[👀] <b>CuVo</b> buscando visitando la URL {url}.")
 
     # Realizar la solicitud HTTP a la URL
     response = requests.get(url)

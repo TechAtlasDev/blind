@@ -16,7 +16,7 @@ async def crear_pdf_html(html_str:str, titulo_pdf:str, **kwargs):
     message: Message = kwargs.get("message", None)
     client: Client = kwargs.get("client", None)
 
-    message.reply_text(f"[📝] <b>CuVo</b> está creando un PDF.")
+    await message.reply_text(f"[📝] <b>CuVo</b> está creando un PDF.")
 
     # Generar el nombre de archivo único
     filename = f"{titulo_pdf}_{random.randint(0, 100)}.pdf"

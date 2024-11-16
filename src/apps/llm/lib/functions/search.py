@@ -33,7 +33,7 @@ async def google_search(search:str, **kwargs):
   message:Message = kwargs.get("message", None)
   client:Client = kwargs.get("client", None)
   
-  message.reply_text(f"[🔎] <b>CuVo</b> buscando por internet <code>{search}</code>.")
+  await message.reply_text(f"[🔎] <b>CuVo</b> buscando por internet <code>{search}</code>.")
 
   responseSearch = searcher(search)
   MESSAGE = "Resultados de búsqueda\n\n"
