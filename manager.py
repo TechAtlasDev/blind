@@ -38,7 +38,7 @@ def check_repo_updates(interval=30):
             print("Repositorio actualizado. Reiniciando bot...")
             reload_handler.start_bot()
         else:
-            print ("[INFO] Sistema actualizado")
+            print ("[INFO-SYSTEM] Sistema actualizado")
         time.sleep(interval)
 
 if __name__ == "__main__":

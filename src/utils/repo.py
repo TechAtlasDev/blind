@@ -1,37 +1,57 @@
-# Funcion que verifica si el repositorio local está actualizado en base al repositorio remoto
 import git
 
-def is_updated(link_repo_remote:str="https://github.com/techatlasdev/blind", path_repo_local="."):
-  # Inicializar el repositorio local
-  repo = git.Repo(path_repo_local)
+def is_updated(link_repo_remote="https://github.com/techatlasdev/blind", path_repo_local="."):
+    try:
+        # Inicializar el repositorio local
+        repo = git.Repo(path_repo_local)
 
-  # Obtener el remoto
-  remote = repo.remote()
+        # Obtener la URL del remoto
+        remote_url = repo.remotes.origin.url
 
-  # Obtener el hash del último commit del remoto
-  remote_head = remote.refs.main.commit
+        # Verificar que la URL del remoto coincida con la proporcionada
+        if remote_url != link_repo_remote:
+            return {
+                "status": False,
+                "message": f"El repositorio remoto no coincide. Esperado: {link_repo_remote}, pero se encontró: {remote_url}",
+            }
 
-  # Obtener el hash del último commit local
-  local_head = repo.head.commit
+        # Verificar si la rama local es 'main'
+        if repo.active_branch.name != "main":
+            print("Cambiando a la rama 'main'...")
+            repo.git.checkout("main")
 
-  # Comparar los hashes
-  if remote_head.hexsha == local_head.hexsha:
-      response = {
-         "status": True,
-         "message": "El repositorio está actualizado",
-         "data": {
-            "remote_head": remote_head.hexsha,
-            "local_head": local_head.hexsha
-         }
-      }
-      return response
-  else:
-      response = {
-         "status": False,
-         "message": "El repositorio no está actualizado",
-         "data": {
-            "remote_head": remote_head.hexsha,
-            "local_head": local_head.hexsha
-         }
-      }
-      return response
+        # Obtener el remoto
+        remote = repo.remote()
+
+        # Actualizar información del remoto
+        remote.fetch()
+
+        # Obtener los commits más recientes
+        remote_head = remote.refs["main"].commit
+        local_head = repo.head.commit
+
+        # Comparar los commits
+        if remote_head.hexsha == local_head.hexsha:
+            return {
+                "status": True,
+                "message": "El repositorio está actualizado",
+                "data": {
+                    "remote_head": remote_head.hexsha,
+                    "local_head": local_head.hexsha,
+                },
+            }
+        else:
+            return {
+                "status": False,
+                "message": "El repositorio no está actualizado",
+                "data": {
+                    "remote_head": remote_head.hexsha,
+                    "local_head": local_head.hexsha,
+                },
+            }
+
+    except Exception as e:
+        return {
+            "status": False,
+            "message": f"Error al verificar el repositorio: {e}",
+        }
