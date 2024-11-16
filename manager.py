@@ -32,13 +32,14 @@ def check_repo_updates(interval=30):
     from src.utils.repo import is_updated
     while True:
         repo_status = is_updated()
+        printTest(repo_status)
         if not repo_status:
             print("El repositorio no está actualizado. Actualizando...")
             subprocess.run(["git", "pull"])
             print("Repositorio actualizado. Reiniciando bot...")
             reload_handler.start_bot()
         else:
-            print ("[INFO-SYSTEM 1] Sistema actualizado")
+            print ("[INFO-SYSTEM 2] Sistema actualizado")
         time.sleep(interval)
 
 if __name__ == "__main__":

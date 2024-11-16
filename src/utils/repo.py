@@ -1,6 +1,6 @@
 import git
 
-def is_updated(link_repo_remote="https://github.com/techatlasdev/blind", path_repo_local="."):
+def is_updated(link_repo_remote="https://github.com/TechAtlasDev/blind", path_repo_local="."):
     try:
         # Inicializar el repositorio local
         repo = git.Repo(path_repo_local)
