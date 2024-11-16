@@ -1,3 +1,4 @@
+from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from pyrogram import Client
 from pyrogram.types.messages_and_media.message import Message
 from google.generativeai.types.generation_types import GenerateContentResponse
@@ -36,7 +37,12 @@ class HandlerResponseJSON:
               parts.append(part) if part else None
 
           AICUVO = CHAT(self.message)
-          RESPONSE:GenerateContentResponse = AICUVO.chat.send_message(parts)
+          RESPONSE:GenerateContentResponse = AICUVO.chat.send_message(parts,       safety_settings={
+          HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+          HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+          HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+          HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+      })
           HANDLER = HandlerResponseJSON(RESPONSE, self.message, self.client)
           await HANDLER.execute()
 

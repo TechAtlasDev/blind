@@ -1,3 +1,5 @@
+from google.generativeai.types import HarmCategory, HarmBlockThreshold
+
 import asyncio
 from pyrogram import Client
 from pyrogram.types import Message
@@ -86,7 +88,12 @@ async def enviar_mensaje_despues(client: Client, chat_id: int, postdata: str, de
     await client.send_message(chat_id=chat_id, text=f"[ ⏰ ] LA ALARMA DE {delay} TERMINÓ -> <i>{postdata}</i>")
     
     # Enviado el mensaje a la IA
-    RESPONSE = AICUVO.chat.send_message(f"[SYSTEM] Se terminó la alarma, su postdata era: {postdata}")
+    RESPONSE = AICUVO.chat.send_message(f"[SYSTEM] Se terminó la alarma, su postdata era: {postdata}",safety_settings={
+          HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+          HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+          HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+          HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+      })
 
     # Procesando la respuesta
     HANDLER = HandlerResponseJSON(RESPONSE, message, client)

@@ -19,6 +19,7 @@ async def crear_pdf_html(html_str:str, **kwargs):
     # Generar el nombre de archivo único
     filename = f"{message.from_user.id}_{random.randint(0, 100)}.pdf"
 
+    html_str = html_str.replace('\n', '')
     html_str = html_str.replace('\\n', '')
     html_str = html_str.replace('\n', '')
     html_str = html_str.replace('\\\n', '')
