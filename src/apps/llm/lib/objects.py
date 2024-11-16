@@ -168,5 +168,8 @@ class CHAT_USER_ACTIONS:
       }
 
   def deleteChat(self, idUser=None):
-    os.remove(self.fileChat if not idUser else f"{str(self.user.chat.title)+'_' if self.user.chat.title else ''}{self.user.chat.id}.pkl")
+    try:
+      os.remove(self.fileChat if not idUser else f"{str(self.user.chat.title)+'_' if self.user.chat.title else ''}{self.user.chat.id}.pkl")
+    except FileNotFoundError:
+      pass
     return True
