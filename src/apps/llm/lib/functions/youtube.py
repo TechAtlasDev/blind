@@ -37,4 +37,4 @@ async def youtube_obtener_video_transcripcion(url:str, **kwargs):
         return {"results":texto}
     except Exception as e:
         print (f"Ocurrió un error en la transcripción -> {e}")
-        return {"results": f"Error al obtener la transcripción"}
+        return {"results": f"Error al obtener la transcripción, error: {e}"}
