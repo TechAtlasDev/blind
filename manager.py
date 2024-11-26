@@ -11,11 +11,11 @@ class ReloadBotHandler(FileSystemEventHandler):
         self.process = None
         self.start_bot()
 
-    def start_bot(self):
+    def start_bot(self, param):
         # Inicia el bot en un proceso separado
         if self.process:
             self.process.kill()
-        self.process = subprocess.Popen(["python3", "-m", self.script_name])
+        self.process = subprocess.Popen(["python3", "-m", self.script_name, param])
 
     def on_modified(self, event):
         # Reinicia el bot al detectar cambios
@@ -37,7 +37,7 @@ def check_repo_updates(interval=30):
             print("El repositorio no está actualizado. Actualizando...")
             subprocess.run(["git", "pull"])
             print("Repositorio actualizado. Reiniciando bot...")
-            reload_handler.start_bot()
+            reload_handler.start_bot("--prod")
         else:
             print ("[INFO-SYSTEM 5] Sistema actualizado")
         time.sleep(interval)

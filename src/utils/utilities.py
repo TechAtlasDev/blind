@@ -1,6 +1,9 @@
 import google.generativeai as genai
 from pyrogram import Client
 from django.urls import path
+from .vars import ADMIN_ID
+
+from src.main import IS_PROD
 
 def clearComand(message:str):
    # Eliminando el comando
@@ -42,6 +45,9 @@ def printError(data:Exception):
         textKwargs += f"\n[+] {param} -> {errorMetadata[param]}"
 
     print("\n" * 2 + f"---------  ERROR  ---------------\n\n{data}\n\n---\n[+] Type: {type(data)}{textKwargs}\n\n-------------  ERROR  --------------")
+    if IS_PROD:
+        for admin in ADMIN_ID:
+            Client.send_message(chat_id=admin, text=f"Error en el servidor:\n\n{data}\n\n---\n[+] Type: {type(data)}{textKwargs}\n\n-------------  ERROR  --------------")
 
 def downloadMedia(client:Client, file_id:str):
   """Downloads the media from the given message and saves it to the specified path.
