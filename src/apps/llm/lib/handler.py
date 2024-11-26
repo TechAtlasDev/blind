@@ -1,5 +1,5 @@
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
-from pyrogram import Client
+from pyrogram import Client, enums
 from pyrogram.types.messages_and_media.message import Message
 from google.generativeai.types.generation_types import GenerateContentResponse
 
@@ -22,10 +22,14 @@ class HandlerResponseJSON:
         AICUVO = CHAT(self.message)
         await main(f"{part.text}", message=self.message, client=self.client)
       if part.function_call:
+        self.client.set_parse_mode(enums.ParseMode.DEFAULT)
         function_name = part.function_call.name
         if functions.get(function_name, None):
           # Ejecutando la funcion y guardando el resultado
-          response = await functions[function_name](**part.function_call.args, message=self.message, client=self.client)
+          try:
+            response = await functions[function_name](**part.function_call.args, message=self.message, client=self.client)
+          except Exception as e:
+            response = {"results": f"Error al ejecutar la función {function_name}: {e}"}
 
           PARTRESPONSECALL = response["results"] if response.get("results", None) else response
           partContent = partFunction(name=function_name, response={"results": PARTRESPONSECALL})
@@ -37,12 +41,6 @@ class HandlerResponseJSON:
               parts.append(part) if part else None
 
           AICUVO = CHAT(self.message)
-          RESPONSE:GenerateContentResponse = AICUVO.chat.send_message(parts,       safety_settings={
-          HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
-          HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
-          HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
-          HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
-      })
+          RESPONSE = await AICUVO.send_parts(parts)
           HANDLER = HandlerResponseJSON(RESPONSE, self.message, self.client)
           await HANDLER.execute()
-

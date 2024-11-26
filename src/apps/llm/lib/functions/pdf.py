@@ -4,7 +4,7 @@ import random
 from pyrogram import Client
 from pyrogram.types.messages_and_media.message import Message
 
-async def crear_pdf_html(html_str:str, titulo_pdf:str, **kwargs):
+async def crear_pdf_html(html_str:str, titulo_pdf:str="pdf_document", **kwargs):
     """
     Convierte un string HTML a un archivo PDF.
     
@@ -25,6 +25,7 @@ async def crear_pdf_html(html_str:str, titulo_pdf:str, **kwargs):
     html_str = html_str.replace('\\n', '')
     html_str = html_str.replace('\n', '')
     html_str = html_str.replace('\\\n', '')
+    html_str = html_str.replace('\\', '')
 
     # Renderizar el HTML con el contexto proporcionado
     template = Template(html_str)
@@ -32,10 +33,6 @@ async def crear_pdf_html(html_str:str, titulo_pdf:str, **kwargs):
 
     # Opciones para pdfkit (A4 y sin márgenes)
     options = {
-        'margin-top': '10mm',
-        'margin-right': '10mm',
-        'margin-bottom': '10mm',
-        'margin-left': '10mm',
         'encoding': 'UTF-8'
     }
     pdfkit.from_string(rendered_html, filename, options=options)

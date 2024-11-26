@@ -7,7 +7,6 @@ async def main(texto:str, **kwargs):
   client:Client = kwargs.get("client", None)
 
   client.set_parse_mode(enums.ParseMode.MARKDOWN)
-
   
   for index in range(0, len(texto), 4000):
     await message.reply(texto[index:index+4000], reply_to_message_id=message.id)

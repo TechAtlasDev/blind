@@ -8,7 +8,10 @@ async def fetchDataUser(id:int, **kwargs):
 
   await message.reply_text(f"[👥] <b>CuVo</b> está buscando la información con el ID {id}.")
 
-  user:User = await client.get_users(user_ids=int(id))
-  response = f"ID: {user.id}\nNombre: {user.first_name}\nApellido: {user.last_name}\nUsername: {user.username}"
-  await message.reply("[✅] CUVO ESTÁ USANDO EL BUSCADOR DE DATOS DE USUARIOS.")
-  return {"results": response}
+  try:
+    user:User = await client.get_users(user_ids=int(id))
+    response = f"ID: {user.id}\nNombre: {user.first_name}\nApellido: {user.last_name}\nUsername: {user.username}"
+    await message.reply("[✅] CUVO ESTÁ USANDO EL BUSCADOR DE DATOS DE USUARIOS.")
+    return {"results": response}
+  except Exception as e:
+    return {"results": f"Error al obtener información del usuario: {e}"}

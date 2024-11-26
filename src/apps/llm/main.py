@@ -5,7 +5,7 @@ from .lib.objects import CHAT
 from google.generativeai.types.generation_types import GenerateContentResponse
 from pyrogram import enums
 
-from src.utils.utilities import upload_to_gemini, clearComand, downloadMedia, printTest
+from src.utils.utilities import clearComand
 from src.utils.buttons import keymakers
 
 @Client.on_message((filters.command("cuvo") & filters.text) | (filters.private & filters.text))
@@ -22,7 +22,11 @@ async def CUVO(client: Client, message: Message):
 
     # Enviado el mensaje a la IA
     AICUVO = CHAT(message)
-    RESPONSE:GenerateContentResponse = AICUVO.talk(text_user)
+    RESPONSE:GenerateContentResponse = await AICUVO.talk(text_user)
+
+    if not RESPONSE:
+        await client.send_chat_action(message.chat.id, enums.ChatAction.CANCEL)
+        return "_"
 
     # Procesando la respuesta
     HANDLER = HandlerResponseJSON(RESPONSE, message, client)
@@ -30,48 +34,3 @@ async def CUVO(client: Client, message: Message):
 
     client.set_parse_mode(enums.ParseMode.MARKDOWN)
     await client.send_chat_action(message.chat.id, enums.ChatAction.CANCEL)
-
-#@Client.on_message((filters.photo | filters.media_group & filters.private) | (filters.photo & filters.command("cuvo")))
-async def CUVO_CAPTION(client: Client, message: Message):
-    DESCRIPCION = clearComand(message.caption) if message.caption else ""
-    PATHFILES = []
-
-    if message.media_group_id:
-        # Obtener el grupo de medios usando el `media_group_id`
-        media_group = await client.get_media_group(message.chat.id, message.id)
-
-        # Descargar cada archivo de foto en el grupo de medios
-        for c, media in enumerate(media_group):
-            if media.photo:  # Asegurarse de que el archivo sea una foto
-                PATH = await downloadMedia(client, media.photo.file_id)
-                PATHFILES.append(PATH)
-                if media.caption:  # Concatenar descripción si existe
-                    DESCRIPCION += f"\nDESCRIPCIÓN DE FOTO {c + 1}: {media.caption}"
-
-    # Si el mensaje es una sola foto
-    elif message.photo:
-        PATH = await downloadMedia(client, message.photo.file_id)
-        PATHFILES.append(PATH)
-
-    # Subir imágenes a Gemini y guardar URLs
-    IMAGEPARTS = []
-    for image in PATHFILES:
-        uploaded_file = upload_to_gemini(image)
-        IMAGEPARTS.append(uploaded_file.uri)  # Extraer solo el URI
-
-    mensaje_respuesta = "Generando respuesta..."
-    sent_message = await message.reply(mensaje_respuesta)
-
-    # Enviado el mensaje a la IA
-    AICUVO = CHAT(message)
-    PARTCONTEXT = IMAGEPARTS + [DESCRIPCION]
-    printTest(PARTCONTEXT)  # -- Debug
-
-    # Enviar solo los URIs en el mensaje a Gemini
-    RESPONSE: GenerateContentResponse = AICUVO.chat.send_message(PARTCONTEXT)
-
-    # Ejecutar el handler con la respuesta
-    HANDLER = HandlerResponseJSON(RESPONSE, message, client)
-    await HANDLER.execute()
-
-    await sent_message.delete()

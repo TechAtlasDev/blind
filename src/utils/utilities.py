@@ -1,5 +1,4 @@
 import google.generativeai as genai
-from pyrogram.types.messages_and_media.message import Message
 from pyrogram import Client
 from django.urls import path
 
@@ -20,6 +19,29 @@ def printTest(data:any, spacing=10, **kwargs):
         textKwargs += f"\n[+] {param} -> {kwargs[param]}"
     
     print("\n" * spacing + f"------------------------------------\n\n{data}\n\n---\n[+] Type: {type(data)}{textKwargs}\n\n-------------------------------------")
+
+def printError(data:Exception):
+    """
+    Prints the given data with a specified spacing.
+
+    Args:
+        data (any): The data to be printed.
+        spacing (int, optional): The number of spaces to be added before the data. Defaults to 10.
+    """
+    errorMetadata = {
+        "error": data,
+        "type": type(data),
+        "line": data.__traceback__.tb_lineno,
+        "file": data.__traceback__.tb_frame.f_code.co_filename,
+        "function": data.__traceback__.tb_frame.f_code.co_name,
+        "message": data.__traceback__.tb_frame.f_locals.get("message", None),
+    }
+    textKwargs = ""
+    
+    for param in errorMetadata.keys():
+        textKwargs += f"\n[+] {param} -> {errorMetadata[param]}"
+
+    print("\n" * 2 + f"---------  ERROR  ---------------\n\n{data}\n\n---\n[+] Type: {type(data)}{textKwargs}\n\n-------------  ERROR  --------------")
 
 def downloadMedia(client:Client, file_id:str):
   """Downloads the media from the given message and saves it to the specified path.

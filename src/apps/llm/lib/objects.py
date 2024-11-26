@@ -1,7 +1,8 @@
 from src.utils.vars import AI_TOKEN
-from src.utils.utilities import printTest
+from src.utils.utilities import printError
 import google.generativeai as genai
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
+from google.api_core.exceptions import InternalServerError
 
 from pyrogram.types.messages_and_media.message import Message
 
@@ -122,17 +123,54 @@ class CHAT:
     hora = user.date.strftime("%H:%M:%S")
     return f"""[ username: {user.from_user.username} | id: {user.from_user.id} | name and lastname: {user.from_user.first_name or 'no disponible'}, {user.from_user.last_name or 'no disponible'} | Premium activado: {user.from_user.is_premium} | Fecha: {fecha} | Hora: {hora} ]: """
 
-  def talk(self, prompt:str):
+  async def talk(self, prompt:str):
     PROMPT = f"{self.makeInterfaceUser(self.user)}{prompt}"
-    response = self.chat.send_message(PROMPT, stream=False,
-      safety_settings={
-          HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
-          HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
-          HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
-          HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
-      })
+    try:
+      response = await self.chat.send_message_async(PROMPT,
+        safety_settings={
+            HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+        })
+
+    # ERROR: google.api_core.exceptions.InternalServerError
+    except InternalServerError as Error:
+      printError(Error)
+      await self.user.reply(f"[❌] <b>Ocurrió un error!</b>, No te preocupes!, este error es común, inténtalo en 1 minuto, si persiste el sistema, te recomiendo ejecutar el comando /clear para limpiar la memoria de cuvo.\n\n<code>google.api_core.exceptions.InternalServerError</code>")
+      return False
+      
+    except Exception as Error:
+      printError(Error)
+      await self.user.reply(f"[❌] <b>CuVo</b> se ha producido un error inesperado.\n\n<code>{Error}</code>")
+      return False
+
     self.CHAT_USER['history'] = self.chat.history
 
+    self.CHAT_OPERATIONS.saveChat(self.CHAT_USER)
+    return response
+  
+  async def send_parts(self, parts:list):
+    try:
+      response = await self.chat.send_message_async(parts, stream=False,
+        safety_settings={
+            HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+        })
+
+    except InternalServerError as Error:
+      printError(Error)
+      await self.user.reply(f"[❌] <b>Ocurrió un error!</b>, No te preocupes!, este error es común, inténtalo en 1 minuto.\n\n<code>google.api_core.exceptions.InternalServerError</code>")
+      return False
+      
+    except Exception as Error:
+      printError(Error)
+      await self.user.reply(f"[❌] <b>CuVo</b> se ha producido un error inesperado.\n\n<code>{Error}</code>")
+      return False
+
+    self.CHAT_USER['history'] = self.chat.history
     self.CHAT_OPERATIONS.saveChat(self.CHAT_USER)
     return response
   

@@ -1,3 +1,4 @@
+from pyrogram import enums
 import matplotlib.pyplot as plt
 import numpy as np
 import os
@@ -6,34 +7,35 @@ from pyrogram import Client
 from pyrogram.types.messages_and_media.message import Message
 from src.utils.utilities import upload_to_gemini
 
-async def graficar(function: str, **kwargs):
+async def graficar(function_code_python_function: str, nombre_funcion:str="Función de CuVo", **kwargs):
     """
-    Una función que sirve para graficar funciones basadas en una entrada de función.
+    Una función que sirve para graficar funciones en código python usando matplotlib y numpy.
 
-    Recibe: 
-      function (str): La ecuación de la función sin incluir el signo "=".
-                      Ejemplo: graficar("2*x+2")
+    Parámetros:
+    - code_python_function (str): Código de la función en python.
+    - nombre_funcion (str): Nombre de la función a graficar.
 
-    returns:
-      Mensaje de confirmación.
+    Retorna:
+    - Un diccionario con los resultados de la función y los partes de la respuesta.
     """
 
     # Extrayendo argumentos opcionales
     message: Message = kwargs.get("message", None)
     client: Client = kwargs.get("client", None)
 
-    await message.reply_text(f"[📊] <b>CuVo</b> está graficando la función <code>{function}</code>.")
+    client.set_parse_mode(enums.ParseMode.DEFAULT)
+    await message.reply_text(f"[📊] <b>CuVo</b> está graficando la función ```python\n{function_code_python_function}\n```")
 
     # Generando los valores x y calculando y
     x = np.linspace(-10, 10, 100)
-    y = eval(function)
+    y = eval(function_code_python_function)
 
     # Creando la gráfica
     plt.clf()
     plt.plot(x, y)
     plt.xlabel("x")
     plt.ylabel("y")
-    plt.title("Gráfica de la función: " + function)
+    plt.title(nombre_funcion)
     plt.grid(True)
 
     # Guardando la imagen en un archivo temporal

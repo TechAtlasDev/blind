@@ -38,7 +38,6 @@ async def alarma(time_value: float, postdata: str, time_unit: str = "hours", **k
 
     await message.reply_text(f"[⏰] <b>CuVo</b> está creando una alarma que sonará en <i>{time_value} {time_unit}</i>.")
 
-
     if not message or not client:
         return {"error": "Debe proporcionar el mensaje y el cliente."}
 
@@ -51,16 +50,14 @@ async def alarma(time_value: float, postdata: str, time_unit: str = "hours", **k
         seconds_to_wait = time_value
     else:
         return {"error": "Unidad de tiempo inválida. Use 'hours', 'minutes' o 'seconds'."}
+    
+    try:
+        # Llamar a la función auxiliar para enviar el mensaje después del tiempo de espera
+        asyncio.create_task(enviar_mensaje_despues(client, message.chat.id, postdata, seconds_to_wait, message=message))
 
-    # Notificar al usuario que la alarma está programada
-    """await message.reply_text(
-        f"La alarma está programada y se ejecutará en {time_value} {time_unit}."
-    )"""
-
-    # Llamar a la función auxiliar para enviar el mensaje después del tiempo de espera
-    asyncio.create_task(enviar_mensaje_despues(client, message.chat.id, postdata, seconds_to_wait, message=message))
-
-    return {"results": f"La alarma se programó para dentro de {time_value} {time_unit}."}
+        return {"results": f"La alarma se programó para dentro de {time_value} {time_unit}."}
+    except Exception as e:
+        return {"error": f"Error al programar la alarma: {e}"}
 
 
 async def enviar_mensaje_despues(client: Client, chat_id: int, postdata: str, delay: float, message):
@@ -91,13 +88,8 @@ async def enviar_mensaje_despues(client: Client, chat_id: int, postdata: str, de
     await client.send_message(chat_id=chat_id, text=f"[ ⏰ ] LA ALARMA DE {delay} TERMINÓ -> <i>{postdata}</i>")
     
     # Enviado el mensaje a la IA
-    RESPONSE = AICUVO.chat.send_message(f"[SYSTEM] Se terminó la alarma, su postdata era: {postdata}",safety_settings={
-          HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
-          HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
-          HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
-          HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
-      })
-
+    RESPONSE = await AICUVO.talk(f"[SYSTEM] La alarma de {delay} terminó, su postdata era: {postdata}")
+    
     # Procesando la respuesta
     HANDLER = HandlerResponseJSON(RESPONSE, message, client)
     await HANDLER.execute()
