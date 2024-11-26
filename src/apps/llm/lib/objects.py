@@ -5,10 +5,10 @@ from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from google.api_core.exceptions import InternalServerError
 
 from pyrogram.types.messages_and_media.message import Message
+from pyrogram import Client
 
 from .path import functions
 import pickle
-import os
 import os
 
 genai.configure(api_key=AI_TOKEN)
@@ -96,7 +96,8 @@ def partModel(prompt:str) -> genai.protos.Part:
   )
 
 class CHAT:
-  def __init__(self, user:Message):
+  def __init__(self, user:Message, client:Client):
+    self.client = client
     self.user = user
     self.model = self.createModel()
     self.CHAT_OPERATIONS = CHAT_USER_ACTIONS(self.user)
@@ -143,12 +144,12 @@ class CHAT:
 
     # ERROR: google.api_core.exceptions.InternalServerError
     except InternalServerError as Error:
-      await printError(Error)
+      await printError(Error, self.client)
       await self.user.reply(f"[❌] <b>Ocurrió un error!</b>, No te preocupes!, este error es común, inténtalo en 1 minuto, si persiste el sistema, te recomiendo ejecutar el comando /clear para limpiar la memoria de cuvo.\n\n<code>google.api_core.exceptions.InternalServerError</code>")
       return False
       
     except Exception as Error:
-      await printError(Error)
+      await printError(Error, self.client)
       await self.user.reply(f"[❌] <b>CuVo</b> se ha producido un error inesperado.\n\n<code>{Error}</code>")
       return False
 
@@ -168,12 +169,12 @@ class CHAT:
         })
 
     except InternalServerError as Error:
-      await printError(Error)
+      await printError(Error, self.client)
       await self.user.reply(f"[❌] <b>Ocurrió un error!</b>, No te preocupes!, este error es común, inténtalo en 1 minuto.\n\n<code>google.api_core.exceptions.InternalServerError</code>")
       return False
       
     except Exception as Error:
-      await printError(Error)
+      await printError(Error, self.client)
       await self.user.reply(f"[❌] <b>CuVo</b> se ha producido un error inesperado.\n\n<code>{Error}</code>")
       return False
 

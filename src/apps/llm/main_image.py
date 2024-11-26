@@ -31,7 +31,7 @@ async def main_images(client: Client, message: Message):
   printTest(CONTENT)
 
   # Enviando el mensaje a la IA
-  AICUVO = CHAT(message)
+  AICUVO = CHAT(message, client)
   RESPONSE = await AICUVO.send_parts(CONTENT)
 
   HANDLER = HandlerResponseJSON(RESPONSE, message, client)

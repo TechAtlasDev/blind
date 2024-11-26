@@ -64,7 +64,7 @@ async def enviar_mensaje_despues(client: Client, chat_id: int, postdata: str, de
     from src.apps.llm.lib.objects import CHAT
     from src.apps.llm.lib.handler import HandlerResponseJSON
 
-    AICUVO = CHAT(message)
+    AICUVO = CHAT(message, client)
 
 
     """

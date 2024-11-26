@@ -28,7 +28,7 @@ async def main_audio(client: Client, message: Message):
   printTest(CONTENT)
 
   # Enviando el mensaje a la IA
-  AICUVO = CHAT(message)
+  AICUVO = CHAT(message, client)
   RESPONSE = await AICUVO.send_parts(CONTENT)
 
   HANDLER = HandlerResponseJSON(RESPONSE, message, client)
@@ -57,7 +57,7 @@ async def main_voice(client: Client, message: Message):
   printTest(CONTENT)
 
   # Enviando el mensaje a la IA
-  AICUVO = CHAT(message)
+  AICUVO = CHAT(message, client)
   RESPONSE = await AICUVO.send_parts(CONTENT)
 
   HANDLER = HandlerResponseJSON(RESPONSE, message, client)

@@ -1,9 +1,8 @@
 import google.generativeai as genai
 from pyrogram import Client
 from django.urls import path
-from .vars import ADMIN_ID
 
-from src.main import IS_PROD
+from .vars import IS_PROD
 
 def clearComand(message:str):
    # Eliminando el comando
@@ -23,7 +22,7 @@ def printTest(data:any, spacing=10, **kwargs):
     
     print("\n" * spacing + f"------------------------------------\n\n{data}\n\n---\n[+] Type: {type(data)}{textKwargs}\n\n-------------------------------------")
 
-async def printError(data:Exception):
+async def printError(data:Exception, client:Client):
     """
     Prints the given data with a specified spacing.
 
@@ -46,8 +45,8 @@ async def printError(data:Exception):
 
     print("\n" * 2 + f"---------  ERROR  ---------------\n\n{data}\n\n---\n[+] Type: {type(data)}{textKwargs}\n\n-------------  ERROR  --------------")
     if IS_PROD:
-        for admin in ADMIN_ID:
-            await Client.send_message(chat_id=admin, text=f"Error en el servidor:\n\n{data}\n\n---\n[+] Type: {type(data)}{textKwargs}\n\n-------------  ERROR  --------------")
+       print ("Enviando bug")
+        #await client.send_message(chat_id=ADMIN_ID, text=f"Error en el servidor:\n\n{data}\n\n---\n[+] Type: {type(data)}{textKwargs}\n\n-------------  ERROR  --------------")
 
 def downloadMedia(client:Client, file_id:str):
   """Downloads the media from the given message and saves it to the specified path.

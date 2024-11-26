@@ -21,7 +21,7 @@ async def CUVO(client: Client, message: Message):
     await client.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
 
     # Enviado el mensaje a la IA
-    AICUVO = CHAT(message)
+    AICUVO = CHAT(message, client)
     RESPONSE:GenerateContentResponse = await AICUVO.talk(text_user)
 
     if not RESPONSE:

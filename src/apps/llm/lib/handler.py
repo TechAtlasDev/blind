@@ -19,7 +19,7 @@ class HandlerResponseJSON:
     for part in self.data.parts:
       printTest(part) # -- Debug
       if part.text:
-        AICUVO = CHAT(self.message)
+        AICUVO = CHAT(self.message, self.client)
         await main(f"{part.text}", message=self.message, client=self.client)
       if part.function_call:
         self.client.set_parse_mode(enums.ParseMode.DEFAULT)
@@ -40,7 +40,7 @@ class HandlerResponseJSON:
             for part in PARTSADITIONAL:
               parts.append(part) if part else None
 
-          AICUVO = CHAT(self.message)
+          AICUVO = CHAT(self.message, self.client)
           RESPONSE = await AICUVO.send_parts(parts)
           HANDLER = HandlerResponseJSON(RESPONSE, self.message, self.client)
           await HANDLER.execute()

@@ -9,7 +9,7 @@ class ReloadBotHandler(FileSystemEventHandler):
     def __init__(self, script_name):
         self.script_name = script_name
         self.process = None
-        self.start_bot()
+        self.start_bot("--prod")
 
     def start_bot(self, param):
         # Inicia el bot en un proceso separado

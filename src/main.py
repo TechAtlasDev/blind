@@ -6,8 +6,6 @@ from src.utils.vars import *
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
 PARAMS = sys.argv
 
-IS_PROD = PARAMS[-1] == "--prod"
-
 bot = Client(
     NAME,
     api_id=API_ID,
