@@ -143,12 +143,12 @@ class CHAT:
 
     # ERROR: google.api_core.exceptions.InternalServerError
     except InternalServerError as Error:
-      printError(Error)
+      await printError(Error)
       await self.user.reply(f"[❌] <b>Ocurrió un error!</b>, No te preocupes!, este error es común, inténtalo en 1 minuto, si persiste el sistema, te recomiendo ejecutar el comando /clear para limpiar la memoria de cuvo.\n\n<code>google.api_core.exceptions.InternalServerError</code>")
       return False
       
     except Exception as Error:
-      printError(Error)
+      await printError(Error)
       await self.user.reply(f"[❌] <b>CuVo</b> se ha producido un error inesperado.\n\n<code>{Error}</code>")
       return False
 
@@ -168,12 +168,12 @@ class CHAT:
         })
 
     except InternalServerError as Error:
-      printError(Error)
+      await printError(Error)
       await self.user.reply(f"[❌] <b>Ocurrió un error!</b>, No te preocupes!, este error es común, inténtalo en 1 minuto.\n\n<code>google.api_core.exceptions.InternalServerError</code>")
       return False
       
     except Exception as Error:
-      printError(Error)
+      await printError(Error)
       await self.user.reply(f"[❌] <b>CuVo</b> se ha producido un error inesperado.\n\n<code>{Error}</code>")
       return False
 

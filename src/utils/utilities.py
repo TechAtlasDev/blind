@@ -23,7 +23,7 @@ def printTest(data:any, spacing=10, **kwargs):
     
     print("\n" * spacing + f"------------------------------------\n\n{data}\n\n---\n[+] Type: {type(data)}{textKwargs}\n\n-------------------------------------")
 
-def printError(data:Exception):
+async def printError(data:Exception):
     """
     Prints the given data with a specified spacing.
 
@@ -47,7 +47,7 @@ def printError(data:Exception):
     print("\n" * 2 + f"---------  ERROR  ---------------\n\n{data}\n\n---\n[+] Type: {type(data)}{textKwargs}\n\n-------------  ERROR  --------------")
     if IS_PROD:
         for admin in ADMIN_ID:
-            Client.send_message(chat_id=admin, text=f"Error en el servidor:\n\n{data}\n\n---\n[+] Type: {type(data)}{textKwargs}\n\n-------------  ERROR  --------------")
+            await Client.send_message(chat_id=admin, text=f"Error en el servidor:\n\n{data}\n\n---\n[+] Type: {type(data)}{textKwargs}\n\n-------------  ERROR  --------------")
 
 def downloadMedia(client:Client, file_id:str):
   """Downloads the media from the given message and saves it to the specified path.
