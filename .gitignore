@@ -1,5 +1,6 @@
 *.env.*
 
+agenda.json
 downloads/
 
 *.pkl
