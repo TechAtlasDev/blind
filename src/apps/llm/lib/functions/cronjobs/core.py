@@ -38,8 +38,6 @@ class Agenda:
     self.saveData()
     return {"rutina": rutina.__dict__()}
   
-  {'dias': ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo'], 'hora': '07:00', 'message': 'Despertar temprano', 'id_chat': 1601204657.0, 'id_rutina': 65, 'utc': 'America/Lima'}
-  
   def loadRutinas(self, ID_CHAT:int):
     self.createProfile(ID_CHAT)
 

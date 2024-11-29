@@ -1,6 +1,7 @@
 from pyrogram import Client
 from pyrogram.types import Message
 from .core import Agenda, Rutina
+from src.utils.utilities import printTest
 
 async def crear_rutina(nombre_horario:str, hora:str, dias_semana:list[str], zona_horaria:str, **kwargs) -> str:
     """
@@ -27,6 +28,8 @@ async def crear_rutina(nombre_horario:str, hora:str, dias_semana:list[str], zona
         id_chat=str(int(message.chat.id)),
         message=nombre_horario
     )
+    printTest(message)
+    print (RUTINA.__dict__())
 
     result = Agenda().createRutinas(RUTINA)
 
