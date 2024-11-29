@@ -1,0 +1,23 @@
+{
+    "rutinas": {
+        "1601204657": {
+            "17": {
+                "dias": [
+                    "lunes",
+                    "martes",
+                    "mi\u00e9rcoles",
+                    "jueves",
+                    "viernes",
+                    "s\u00e1bado",
+                    "domingo"
+                ],
+                "hora": "09:00",
+                "message": "z2ppbwvuzxpkzxphh",
+                "id_chat": "1601204657",
+                "id_rutina": 17,
+                "utc": "America/Lima"
+            }
+        },
+        "1601204657.0": {}
+    }
+}

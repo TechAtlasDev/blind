@@ -6,7 +6,8 @@ from pyrogram.types.messages_and_media.message import Message
 
 async def crear_pdf_html(html_str:str, titulo_pdf:str="pdf_document", **kwargs):
     """
-    Convierte un string HTML a un archivo PDF.
+    Creador de PDFs que le permite al asistente crear un PDF a partir de código HTML, para esto, en el código HTML no tienen que haber saltos de linea (\\n), ya que provoca bugs en el documento.
+    Es recomendable que se ponga un título en el HTML, ya que si no, el PDF no se creará correctamente.
     
     Parameters:
         html_str (str): El contenido HTML en formato de cadena.    

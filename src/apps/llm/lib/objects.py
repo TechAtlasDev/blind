@@ -5,7 +5,7 @@ from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from google.api_core.exceptions import InternalServerError
 
 from pyrogram.types.messages_and_media.message import Message
-from pyrogram import Client
+from pyrogram import Client, enums
 
 from .path import functions
 import pickle
@@ -144,11 +144,13 @@ class CHAT:
 
     # ERROR: google.api_core.exceptions.InternalServerError
     except InternalServerError as Error:
+      self.client.set_parse_mode(enums.ParseMode.DEFAULT)
       await printError(Error, self.client)
       await self.user.reply(f"[❌] <b>Ocurrió un error!</b>, No te preocupes!, este error es común, inténtalo en 1 minuto, si persiste el sistema, te recomiendo ejecutar el comando /clear para limpiar la memoria de cuvo.\n\n<code>google.api_core.exceptions.InternalServerError</code>")
       return False
       
     except Exception as Error:
+      self.client.set_parse_mode(enums.ParseMode.DEFAULT)
       await printError(Error, self.client)
       await self.user.reply(f"[❌] <b>CuVo</b> se ha producido un error inesperado.\n\n<code>{Error}</code>")
       return False

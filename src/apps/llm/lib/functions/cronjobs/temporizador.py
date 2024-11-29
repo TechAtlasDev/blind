@@ -1,10 +1,8 @@
-from google.generativeai.types import HarmCategory, HarmBlockThreshold
-
 import asyncio
+from pyrogram.types.messages_and_media.message import Message
 from pyrogram import Client
-from pyrogram.types import Message
 
-async def alarma(time_value: float, postdata: str, time_unit: str = "hours", **kwargs):
+async def temporizador(time_value: float, postdata: str, time_unit: str = "hours", **kwargs):
     """
     Programa un mensaje de recomendación que se enviará después de un tiempo específico,
     definido en horas, minutos o segundos.

@@ -7,7 +7,7 @@ from .objects import CHAT, partFunction
 
 from .path import functions
 from .functions.chat import main
-from src.utils.utilities import printTest
+from src.utils.utilities import printTest, printError
 
 class HandlerResponseJSON:
   def __init__(self, data:GenerateContentResponse, messsage:Message, client:Client):
@@ -29,6 +29,7 @@ class HandlerResponseJSON:
           try:
             response = await functions[function_name](**part.function_call.args, message=self.message, client=self.client)
           except Exception as e:
+            await printError(e, self.client)
             response = {"results": f"Error al ejecutar la función {function_name}: {e}"}
 
           PARTRESPONSECALL = response["results"] if response.get("results", None) else response

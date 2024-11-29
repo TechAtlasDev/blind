@@ -21,7 +21,7 @@ class ReloadBotHandler(FileSystemEventHandler):
         # Reinicia el bot al detectar cambios
         if event.src_path.endswith(".py"):
             print(f"Detectado cambio en {event.src_path}. Reiniciando bot...")
-            self.start_bot()
+            self.start_bot("--prod")
 
     def stop_bot(self):
         if self.process:

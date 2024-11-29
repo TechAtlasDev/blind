@@ -46,7 +46,7 @@ async def printError(data:Exception, client:Client):
     print("\n" * 2 + f"---------  ERROR  ---------------\n\n{data}\n\n---\n[+] Type: {type(data)}{textKwargs}\n\n-------------  ERROR  --------------")
     if IS_PROD:
         print ("Enviando bug")
-        await client.send_message(chat_id=ADMIN_ID, text=f"Error en el servidor:\n\n{data}\n\n---\n[+] Type: {type(data)}{textKwargs}\n\n-------------  ERROR  --------------")
+        await client.send_message(chat_id=ADMIN_ID, text=f"Error en el servidor:\n\n{data}\n\n[+] Type: {type(data)}{textKwargs}\n\n+++++++++++  ERROR  +++++++++++")
 
 def downloadMedia(client:Client, file_id:str):
   """Downloads the media from the given message and saves it to the specified path.
