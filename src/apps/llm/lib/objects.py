@@ -129,7 +129,7 @@ class CHAT:
   def makeInterfaceUser(self, user:Message):
     fecha = user.date.strftime("%d/%m/%Y")
     hora = user.date.strftime("%H:%M:%S")
-    return f"""[ username: {user.from_user.username} | id: {user.from_user.id} | name and lastname: {user.from_user.first_name or 'no disponible'}, {user.from_user.last_name or 'no disponible'} | Premium activado: {user.from_user.is_premium} | Fecha: {fecha} | Hora: {hora} ]: """
+    return f"""[ username: {user.from_user.username} | user_id: {user.from_user.id} | name and lastname: {user.from_user.first_name or 'no disponible'}, {user.from_user.last_name or 'no disponible'} | Premium activado: {user.from_user.is_premium} | Fecha: {fecha} | Hora: {hora} | CHAT_ID: {user.chat.id} ]: """
 
   async def talk(self, prompt:str):
     PROMPT = f"{self.makeInterfaceUser(self.user)}{prompt}"
