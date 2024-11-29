@@ -2,7 +2,7 @@ from pyrogram import Client
 from pyrogram.types import Message
 from .core import Agenda, Rutina
 
-async def crear_rutina(nombre_horario:str, hora:str, dias_semana:list[str], zona_horaria:str, **kwargs) -> str:
+async def crear_rutina(id_username:int, nombre_horario:str, hora:str, dias_semana:list[str], zona_horaria:str, **kwargs) -> str:
     """
     Una funcion que el asistente podrá usar para así ayudarlo a establecer rutinas que se repitirán a base de los intervalos que se establezcan, con el objetivo de evitar la procrastinación y aumentar la productividad.
     Antes de establecer la rutina, el asistente debe asegurarse de preguntarle al usuario de qué país es o qué zona horaria debe basarse para que las alarmas se ajusten a base de ello.
