@@ -1,4 +1,4 @@
-from .functions import ip, send_dm, graficarfuncion, get_info_user, search, calculadora, web, audio, youtube, pdf
+from .functions import ip, send_dm, graficarfuncion, get_info_user, search, calculadora, web, audio, youtube, pdf, shodan
 from .functions.cronjobs import temporizador, rutine
 
 # Proximas funciones:
@@ -20,5 +20,7 @@ functions = {
 
   "visitarURL": web.visitarURL,
   "youtube_obtener_video_transcripcion": youtube.youtube_obtener_video_transcripcion,
-  "crear_pdf_html": pdf.crear_pdf_html
+  "crear_pdf_html": pdf.crear_pdf_html,
+
+  "shodan_search": shodan.searchShodan,
 }

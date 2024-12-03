@@ -71,3 +71,6 @@ class Agenda:
     if RUTINAS.get(str(ID_RUTINA), None):
       return RUTINAS[str(ID_RUTINA)]
     return None
+  
+  def loadAllRutinas(self):
+    return self.data.get("rutinas", {})
