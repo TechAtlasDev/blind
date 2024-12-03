@@ -19,8 +19,8 @@ async def searchShodan(query:str, facet:str, limit:int, **kwargs):
   client:Client = kwargs.get("client", None)
 
   try:
-    response = requests.post(f"https://prl412-web-backend.vercel.app/api/search", data={"query": query, "facets": facet, "limit": limit}).json()
     await message.reply_text(f"[💻] <b>CuVo</b> está usando Shodan: <code>{query}</code>.")
+    response = requests.post(f"https://prl412-web-backend.vercel.app/api/search", data={"query": query, "facets": facet, "limit": limit}).json()
     return {"results": response}
   except Exception as e:
-    return {"results": f"Error al obtener información de la IP: {e}"}
+    return {"results": f"Error al obtener información de los datos solicitados: {e}"}
