@@ -22,5 +22,5 @@ functions = {
   "youtube_obtener_video_transcripcion": youtube.youtube_obtener_video_transcripcion,
   "crear_pdf_html": pdf.crear_pdf_html,
 
-  "shodan_search": shodan.searchShodan,
+  "searchShodan": shodan.searchShodan,
 }

@@ -18,8 +18,6 @@ async def searchShodan(query:str, facet:str, limit:int, **kwargs):
   message:Message = kwargs.get("message", None)
   client:Client = kwargs.get("client", None)
 
-  print (query, facet, limit)
-
   try:
     response = requests.post(f"https://prl412-web-backend.vercel.app/api/search", data={"query": query, "facets": facet, "limit": limit}).json()
     await message.reply_text(f"[💻] <b>CuVo</b> está usando Shodan: <code>{query}</code>.")
