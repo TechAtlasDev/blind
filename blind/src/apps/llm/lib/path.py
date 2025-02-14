@@ -2,7 +2,7 @@ from .functions import ip, send_dm, graficarfuncion, get_info_user, search, calc
 from .functions.cronjobs import temporizador, rutine
 
 # Proximas funciones:
-# Personalizar iamgenes con cloudinary
+# Personalizar imágenes con cloudinary
 
 functions = {
   "sumar": calculadora.sumar,
