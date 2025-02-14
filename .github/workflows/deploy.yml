@@ -22,10 +22,10 @@ jobs:
       - name: Deploy to VPS
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-            cd /ruta/a/tu/bot &&
+            cd /home/prl412/bots/blind &&
             git pull origin main &&
             # Si usas requirements.txt:
-            pip install -r requirements.txt &&
+            /home/prl412/.local/bin/poetry install
             # Reiniciar el bot (ajusta según tu configuración)
             systemctl --user restart telegrambot.service
           "
