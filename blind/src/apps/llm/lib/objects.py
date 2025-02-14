@@ -1,5 +1,5 @@
-from src.utils.vars import AI_TOKEN
-from src.utils.utilities import printError
+from blind.srcutils.vars import AI_TOKEN
+from blind.srcutils.utilities import printError
 import google.generativeai as genai
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from google.api_core.exceptions import InternalServerError
