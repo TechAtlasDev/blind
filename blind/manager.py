@@ -4,10 +4,15 @@ from watchdog.events import FileSystemEventHandler
 import subprocess
 import time
 
+import os, re
+
 class BotHandler(FileSystemEventHandler):
     def __init__(self, script_name):
         self.script_name = script_name
         self.process = None
+
+        # Limpiando caché
+        self._clear_cache()
         self.start_bot()
 
     def start_bot(self):
@@ -23,6 +28,16 @@ class BotHandler(FileSystemEventHandler):
     def stop_bot(self):
         if self.process:
             self.process.kill()
+
+    @staticmethod
+    def _clear_cache():
+        """
+        Funcion que elimina los archivos que tienen el patron: <name_bot>.session<opcional>
+        """
+        for root, dirs, files in os.walk("."):
+            for file in files:
+                if re.search(r"\.session", file):
+                    os.remove(os.path.join(root, file))
 
 def main():
     parser = argparse.ArgumentParser()
