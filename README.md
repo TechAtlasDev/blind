@@ -127,7 +127,7 @@ async def nombre_funcion(value:str, **kwargs):
 * **Retorno:** El resultado de la función que será enviado al LLM, es necesario que el tipo del valor sea primitivo.
 
 > [!WARNING]  
-> No olvides tipar los parámetros de la función,
+> No olvides tipar los parámetros de la función, para que el asistente sepa cómo responder.
 
 ### Función de ejemplo:
 
