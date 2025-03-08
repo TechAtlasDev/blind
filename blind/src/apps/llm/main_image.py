@@ -17,7 +17,8 @@ async def main_images(client: Client, message: Message):
   CONTENT_MIME = "image/jpeg"
   CONTENT_ID = message.photo.file_id
   
-  CAPTION = f"Analiza esta imagen en formato {CONTENT_MIME}" if clearComand(message.caption) == "" or clearComand(message.caption) == None else clearComand(message.caption)+f"\n\nTipo de contenido: {CONTENT_MIME}"
+  CAPTION = f"Analiza esta imagen, formato: {CONTENT_MIME}" if clearComand(message.caption) == "" or clearComand(message.caption) == None else clearComand(message.caption)+f"\n\nTipo de contenido: {CONTENT_MIME}"
+  print (message.caption)
   CONTENT.append(CAPTION)
 
   # Descargando el archivo

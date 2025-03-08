@@ -5,7 +5,7 @@ from .vars import IS_PROD, ADMIN_ID
 
 def clearComand(message:str):
    # Eliminando el comando
-    return message[len(message.split(" ")[0]):].strip() if message.startswith("/") else message
+    return "" if not message else message[len(message.split(" ")[0]):].strip() if message.startswith("/") else message
 
 def printTest(data:any, spacing=10, **kwargs):
     """
