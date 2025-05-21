@@ -79,7 +79,7 @@ class CHAT:
     self.TOKENS_CONSUMIDOS = self.count_tokens()
 
   def createModel(self, data:dict={}, cache=None, PROMPT:str=AI_ACTITUDE, tools=functions) -> genai.GenerativeModel:
-    MODEL = data.get("model", "gemini-2.5-flash-preview-05-20")
+    MODEL = data.get("model", "gemini-2.5-flash-preview-04-17")
     CONFIG_TEMPERATURE = data.get("temperature", 1)
 
     tools = [tools.values()] if type(tools) is dict else tools
